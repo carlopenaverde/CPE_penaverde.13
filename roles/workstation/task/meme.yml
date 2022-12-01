@@ -1,0 +1,24 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: workstations
+  become: true
+  tasks:
+
+  - name: Install Message Queue and Memcached
+    apt:
+       name:
+         - rabbitmq-server
+         - memcached
+       state: latest
+       update_cache: yes
